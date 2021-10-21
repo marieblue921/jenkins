@@ -1,0 +1,23 @@
+- name: Playbook to build and run Docker
+  hosts: all
+  become: true
+  gather_facts: false
+ 
+  tasks:
+    - name: Build  Docker Image
+      docker_image:
+        name: tomcat-myweb
+        build:
+          path: /tomcat-docker-image-build
+          pull: false
+        source: build
+ 
+    - name: Run Docker container 
+      docker_container:
+        name: tomcat-myweb
+        image: tomcat-myweb:latest
+        state: started
+        recreate: yes
+        detach: true
+        ports:
+          - "8888:8080"
