@@ -11,6 +11,19 @@
           path: /tomcat-docker-image-build
           pull: false
         source: build
+
+    - name: Push Docker image to Registry
+      docker_image:
+        name: tomcat-myweb
+          build:
+          path: /tomcat-docker-image-build
+          pull: true
+        state: present
+        tag: "latest"
+        force_tag: yes
+        repository: test/tomcat-myweb:latest
+        push: yes
+        source: build
  
     - name: Run Docker container 
       docker_container:
